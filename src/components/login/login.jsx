@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './login.css'
+import logo from "../../assets/logo.png"
 
 class Login extends Component {
     // state = {  }
@@ -7,8 +8,11 @@ class Login extends Component {
 
     render() { 
         return(
-        <div className="base-container">
+        <div className="base-container" >
             <div className="content">
+                <div className="logo">
+                    <img src={logo} />
+                </div>
                 <div className="form">
                     <form>
                         <div className="form-group">

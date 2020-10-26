@@ -1,8 +1,25 @@
 .base-container {
-  margin: 100px 50px;
+  margin: auto;
+  margin-top: 80px;
+  border: solid 2px lightgrey;
+  border-radius: 10px;
+  width: 500px;
 }
 
 .form {
   margin: auto;
   width: 400px;
+}
+
+.logo {
+  margin: 40px 0px;
+}
+
+img {
+  max-width: 40%;
+  height: auto;
+}
+
+.footer {
+  margin-bottom: 50px;
 }
