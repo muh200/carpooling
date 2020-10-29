@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
+const { checkNotAuthenticated } = require('../check-authentication');
 
-let Database = null;
+let accountsDatabase = null;
 if (process.env.NODE_ENV === 'development') {
-  Database = require('../database/development');
+  accountsDatabase = require('../database/development');
 } else {
   console.error(
     `There are no production databases implemented yet.
@@ -14,11 +15,7 @@ if (process.env.NODE_ENV === 'development') {
   process.exitCode = 1;
 }
 
-const accountsDatabase = new Database();
-
-router.use(express.json());
-
-router.post('/', async function(req, res, next) {
+router.post('/', checkNotAuthenticated, async function(req, res, next) {
   if (req.body.username === undefined || req.body.username === null) {
     res.status(400).json({
       error: 'Username is not defined.',
@@ -41,10 +38,15 @@ router.post('/', async function(req, res, next) {
     });
   } else {
     const hash = await bcrypt.hash(req.body.password, saltRounds);
-    accountsDatabase.set(req.body.username, {
+    const user = {
+      'username': req.body.username,
       'hashedPassword': hash,
+    };
+    accountsDatabase.set(req.body.username, user);
+    req.logIn(user, function(err) {
+      if (err) { return next(err); }
+      return res.status(201).end();
     });
-    res.status(201).end();
   }
 });
 

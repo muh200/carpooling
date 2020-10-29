@@ -20,4 +20,4 @@ class DevelopmentDatabase extends Database {
   }
 }
 
-module.exports = DevelopmentDatabase;
+module.exports = new DevelopmentDatabase();
