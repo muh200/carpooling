@@ -36,7 +36,7 @@ class Login extends Component {
                 </div>
             </div>
             <div className="footer">
-                <button type="button" className="btn btn-link">Create An Account</button>
+                <button type="button" className="btn btn-link" >Create An Account</button>
             </div>
 
         </div>
@@ -52,7 +52,6 @@ class Login extends Component {
   }
 
   handleSubmit(event) {
-    // idrk what this does, apparently it prevents it from submitting to a file ??
     event.preventDefault();
     const data = { username:this.state.username, password:this.state.password }
     //use fetch api
@@ -66,7 +65,10 @@ class Login extends Component {
     })
     .then(response => response.json())
     .then(response => {
-        console.log(response); // print out the response
+        // handles the response we get from the back end
+
+        // raise alert that display the error
+        alert(response.error);
     })
   }
 }
