@@ -7,7 +7,8 @@ class Register extends Component {
         super(props);
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            error: ''
         }
     }
 
@@ -18,6 +19,11 @@ class Register extends Component {
                 <div className="logo">
                     <img src={logo} alt="Pool logo"/>
                 </div>
+                {this.state.error &&
+                    <div className="alert alert-danger">
+                        {this.state.error}
+                    </div>
+                }
                 <div className="form">
                     <form id="login-form" onSubmit={this.handleSubmit.bind(this)} method="POST">
                         <div className="form-group">
@@ -53,6 +59,7 @@ class Register extends Component {
   handleSubmit(event) {
     event.preventDefault();
     const data = { username:this.state.username, password:this.state.password }
+    this.setState({error: ''}) // clear the error if we already had one before
     //use fetch api
     fetch("/users", { 
       method: "POST",
@@ -71,6 +78,7 @@ class Register extends Component {
     })
     .catch(error => {
         console.error(error);
+        this.setState({error: error.toString()});
     })
   }
 }
