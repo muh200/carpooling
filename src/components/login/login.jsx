@@ -63,12 +63,15 @@ class Login extends Component {
         'Content-Type': 'application/json'
       },
     })
-    .then(response => response.json())
     .then(response => {
-        // handles the response we get from the back end
-
-        // raise alert that display the error
-        alert(response.error);
+        if (!response.ok) {
+            return response.json().then(data => {
+                throw new Error(data.error);
+            });
+        }
+    })
+    .catch(error => {
+        console.error(error);
     })
   }
 }

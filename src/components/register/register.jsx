@@ -62,15 +62,15 @@ class Register extends Component {
         'Content-Type': 'application/json'
       },
     })
-    // .then(response => response.json()) -> this wouldn't work right now, response is empty
-    .then(response => response.text()).then(console.log)
     .then(response => {
-        // handles the response we get from the back end
-
-        console.log(response? response.error: {});
-        
-        // raise alert that display the error
-        //alert(response.error);
+        if (!response.ok) {
+            return response.json().then(data => {
+                throw new Error(data.error);
+            });
+        }
+    })
+    .catch(error => {
+        console.error(error);
     })
   }
 }
