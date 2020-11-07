@@ -45,7 +45,7 @@ router.post('/', checkNotAuthenticated, async function(req, res, next) {
     accountsDatabase.set(req.body.username, user);
     req.logIn(user, function(err) {
       if (err) { return next(err); }
-      return res.status(201).end();
+      return res.status(201).json({});
     });
   }
 });

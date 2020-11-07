@@ -9,7 +9,7 @@ router.post('/', checkNotAuthenticated, function(req, res, next) {
     if (!user) { return res.status(401).json({ error: info.message }); }
     req.logIn(user, function(err) {
       if (err) { return next(err); }
-      return res.end();
+      return res.json({});
     });
   })(req, res, next);
 });
