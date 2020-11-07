@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import './login.css'
 import logo from "../../assets/logo.png"
+import {
+    Redirect,
+    Link
+} from "react-router-dom"
 
 class Login extends Component {
 
@@ -9,11 +13,15 @@ class Login extends Component {
         this.state = {
             username: '',
             password: '',
-            error: ''
+            error: '',
+            loggedIn: false
         }
     }
 
-    render() { 
+    render() {
+        if (this.state.loggedIn) {
+            return <Redirect to="/home" />;
+        }
         return(
         <div className="base-container" >
             <div className="content">
@@ -42,7 +50,7 @@ class Login extends Component {
                 </div>
             </div>
             <div className="footer">
-                <button type="button" className="btn btn-link" >Create An Account</button>
+                <Link to="/register">Create An Account</Link>
             </div>
 
         </div>
@@ -75,6 +83,8 @@ class Login extends Component {
             return response.json().then(data => {
                 throw new Error(data.error);
             });
+        } else {
+            this.setState({ loggedIn: true });
         }
     })
     .catch(error => {
