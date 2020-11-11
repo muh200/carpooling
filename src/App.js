@@ -9,6 +9,7 @@ import {
 
 import Login from './components/login/login'
 import Register from './components/register/register'
+import Homepage from './components/homepage/homepage'
 
 function App() {
   return (
@@ -22,7 +23,7 @@ function App() {
             <Register />
           </Route>
           <Route path="/home">
-            <h1>This home page is under construction.</h1>
+            <Homepage />
           </Route>
         </Switch>
       </div>
