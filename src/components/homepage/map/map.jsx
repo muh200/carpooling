@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import 'ol/ol.css';
 import {Map} from 'ol';
 import './map.css'
+import MapContext from './mapContext';
 
 class MapComponent extends Component {
 
@@ -22,7 +23,11 @@ class MapComponent extends Component {
 
     render() {
         return (
-            <div id="map" ref={this.mapRef}></div>
+            <MapContext.Provider value={this.map}>
+                <div id="map" ref={this.mapRef}>
+                    {this.props.children}
+                </div>
+            </MapContext.Provider>
         );
     }
 }
