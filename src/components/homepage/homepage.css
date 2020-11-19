@@ -1,0 +1,23 @@
+.home-base-container {
+  margin: auto;
+  margin-top: 50px;
+  width: 600px;
+}
+
+.map {
+  border: darkblue solid 2px;
+  margin: 20px 0px;
+}
+
+#ride-find {
+  margin-right: 200px;
+  width: 150px;
+}
+
+#passenger-find {
+  width: 150px;
+}
+
+form {
+  display: inline;
+}

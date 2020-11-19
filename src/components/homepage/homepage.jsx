@@ -9,6 +9,7 @@ import {fromLonLat} from 'ol/proj';
 import Point from 'ol/geom/Point';
 import VectorLayerComponent from './map/layer';
 import VectorSource from 'ol/source/Vector';
+import './homepage.css'
 
 class Homepage extends Component {
 
@@ -126,11 +127,68 @@ class Homepage extends Component {
             })
         };
         return (
-            <MapComponent options={mapOptions}>
-                <VectorLayerComponent options={{ source: pinLayerData }} />
-            </MapComponent>
+            <div className="home-base-container">
+                <div className="button-request">
+                    <form method="POST" id="ride-find" onSubmit={this.handleFindRideSubmit.bind(this)}>
+                        <input type="submit" value="Find a Ride" className="btn btn-secondary btn-lg"   />
+                    </form>
+                    <form method="POST" id="passenger-find" onSubmit={this.handleHostRideSubmit.bind(this)}>
+                        <input type="submit" value="Host a Ride" className="btn btn-secondary btn-lg"   />
+                    </form>
+                </div>
+                <div className="map">
+                    <MapComponent options={mapOptions}>
+                    <VectorLayerComponent options={{ source: pinLayerData }} />
+                    </MapComponent>
+                </div>
+                <div className="dashboard">
+                    {/* this will display any notif/requests, display ongoing ride, etc. */}
+                </div>
+                
+
+            </div>
+            
         );
     }
+
+    handleFindRideSubmit(event) {
+        event.preventDefault();
+        const data = { longitude:this.state.currentLocation.longitude, latitude:this.state.currentLocation.latitude }
+        //use fetch api
+        fetch("/riders", { 
+        method: "POST",
+        body: JSON.stringify(data), // the data we're sending
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        })
+        .then(response => {
+            
+        })
+        .catch(error => {
+            console.error(error);
+        })
+  }
+
+  handleHostRideSubmit(event) {
+    event.preventDefault();
+    const data = { longitude:this.state.currentLocation.longitude, latitude:this.state.currentLocation.latitude }
+    fetch("/drivers", { 
+        method: "POST",
+        body: JSON.stringify(data), // the data we're sending
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        })
+        .then(response => {
+            
+        })
+        .catch(error => {
+            console.error(error);
+        })
+  }
 }
 
 export default Homepage;
