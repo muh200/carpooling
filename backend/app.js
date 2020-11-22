@@ -4,6 +4,7 @@ const logger = require('morgan');
 
 const usersRouter = require('./routes/users');
 const loginRouter = require('./routes/login');
+const logoutRouter = require('./routes/logout');
 const ridersRouter = require('./routes/riders');
 const driversRouter = require('./routes/drivers');
 
@@ -40,5 +41,6 @@ app.use('/users', usersRouter);
 app.use('/login', loginRouter);
 app.use('/riders', ridersRouter);
 app.use('/drivers', driversRouter);
+app.use('/logout', logoutRouter);
 
 module.exports = app;
