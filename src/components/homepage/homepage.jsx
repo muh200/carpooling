@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Modal from 'react-modal';
 import MapComponent from './map/map'
 import {View} from 'ol';
 import TileLayer from 'ol/layer/Tile';
@@ -16,6 +17,7 @@ class Homepage extends Component {
     constructor(props) {
         super(props);
         this.state = {
+			visible: false,
             nearbyPins: [],
             isDriver: false,
             currentLocation: {
@@ -24,7 +26,18 @@ class Homepage extends Component {
             },
         };
     }
-
+	openModal(){
+		this.setState({
+			visible: true
+		});
+	}
+	
+	closeModal(){
+		this.setState({
+			visible: false
+		});
+	}
+	
     componentDidMount() {
         // Look for nearby drivers on an interval.
         this.queryIntervalID = window.setInterval(route => {
@@ -146,7 +159,17 @@ class Homepage extends Component {
                 </div>
                 
 
-            </div>
+				<div>
+					<input type="button" value="Choose Your Identity" onClick={()=>this.openModal()} />
+					<Modal visible={this.state.visible} width="500" height="500" effect="fadeInUp" onClickAway={()=>this.closeModal()} />
+						<div>
+							<input type="button" value="I am a Rider" />
+							<input type="button" value="I am a Driver" />
+							<input type="button" value="Close" onClick={()=>this.closeModal()} />
+						</div>
+				</div>
+				
+			</div>
             
         );
     }
