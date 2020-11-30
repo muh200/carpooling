@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Modal from 'react-modal';
+import Modal from 'react-awesome-modal';
 import MapComponent from './map/map'
 import {View} from 'ol';
 import TileLayer from 'ol/layer/Tile';
@@ -18,6 +18,11 @@ class Homepage extends Component {
         super(props);
         this.state = {
 			visible: false,
+			visible2: false,
+			visible3: false,
+			visible4: false,
+			findRide: false,
+			hostRide: false,
             nearbyPins: [],
             isDriver: false,
             currentLocation: {
@@ -26,17 +31,59 @@ class Homepage extends Component {
             },
         };
     }
-	openModal(){
+	
+	//when the button "Find a Ride" is clicked
+	openModal=()=>{
 		this.setState({
+			findRide: true,
 			visible: true
 		});
 	}
 	
-	closeModal(){
+	closeModal=()=>{
 		this.setState({
 			visible: false
 		});
 	}
+	
+	//when the button "Host a Ride" is clicked
+	openModal2=()=>{
+		this.setState({
+			hostRide: true,
+			visible2: true
+		});
+	}
+	
+	closeModal2=()=>{
+		this.setState({
+			visible2: false
+		});
+	}
+	
+	openModal3=()=>{
+		this.setState({
+			visible3: true
+		});
+	}
+	
+	closeModal3=()=>{
+		this.setState({
+			visible3: false
+		});
+	}
+	
+	openModal4=()=>{
+		this.setState({
+			visible4: true
+		});
+	}
+	
+	closeModal4=()=>{
+		this.setState({
+			visible4: false
+		});
+	}
+
 	
     componentDidMount() {
         // Look for nearby drivers on an interval.
@@ -143,12 +190,13 @@ class Homepage extends Component {
             <div className="home-base-container">
                 <div className="button-request">
                     <form method="POST" id="ride-find" onSubmit={this.handleFindRideSubmit.bind(this)}>
-                        <input type="submit" value="Find a Ride" className="btn btn-secondary btn-lg"   />
+                        <input type="submit" value="Find a Ride" onClick={this.openModal} className="btn btn-secondary btn-lg"   />
                     </form>
                     <form method="POST" id="passenger-find" onSubmit={this.handleHostRideSubmit.bind(this)}>
-                        <input type="submit" value="Host a Ride" className="btn btn-secondary btn-lg"   />
+                        <input type="submit" value="Host a Ride" onClick={this.openModal2} className="btn btn-secondary btn-lg"   />
                     </form>
                 </div>
+				
                 <div className="map">
                     <MapComponent options={mapOptions}>
                     <VectorLayerComponent options={{ source: pinLayerData }} />
@@ -159,15 +207,41 @@ class Homepage extends Component {
                 </div>
                 
 
-				<div>
-					<input type="button" value="Choose Your Identity" onClick={()=>this.openModal()} />
-					<Modal visible={this.state.visible} width="500" height="500" effect="fadeInUp" onClickAway={()=>this.closeModal()} />
-						<div>
-							<input type="button" value="I am a Rider" />
-							<input type="button" value="I am a Driver" />
-							<input type="button" value="Close" onClick={()=>this.closeModal()} />
-						</div>
-				</div>
+                <button value="Dashboard" onClick={this.openModal3}>Display my ride information</button>
+				
+				<br /><br />
+				<button value="rate" onClick={this.openModal4}>Rate my ride</button> 
+				
+                <Modal visible={this.state.visible} width="200" height="150" effect="fadeInUp">
+                    <div>
+                        <p>You have requested a ride as a rider. Please wait for the responses from drivers.</p>
+                        
+                    </div>
+				<button value='Close' onClick={this.closeModal}>Close</button>
+                </Modal>
+				
+				<Modal visible={this.state.visible2} width="200" height="150" effect="fadeInUp">
+                    <div>
+                       <p>You have hosted a ride as a driver. Please wait for the responses from riders.</p>  
+                    </div>
+				<button value='Close' onClick={this.closeModal2}>Close</button>
+                </Modal>
+				
+				<Modal visible={this.state.visible3} width="500" height="500" effect="fadeInDown">
+                    <div>
+                       <p>Your riding information will be displayed here.</p>
+					   <p>Choose your driver/rider: </p>
+                    </div>
+				<button value='Close' onClick={this.closeModal3}>Close</button>
+                </Modal>
+				
+				<Modal visible={this.state.visible4} width="100" height="100" effect="fadeInDown">
+                    <div>
+                    <input type="radio" name="rate" value="satisfied" checked />Satisfied <br />
+					<input type="radio" name="rate" value="unsatisfied" />Unsatisfied <br />
+                    </div>
+				<input type='submit' value="Submit" onClick={this.closeModal4} />
+                </Modal>
 				
 			</div>
             
