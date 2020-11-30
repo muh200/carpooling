@@ -210,7 +210,8 @@ class Homepage extends Component {
                 <button value="Dashboard" onClick={this.openModal3}>Display my ride information</button>
 				
 				<br /><br />
-				<button value="rate" onClick={this.openModal4}>Rate my ride</button> 
+				<button value="rate" onClick={this.openModal4}>Rate my ride</button>
+				
 				
                 <Modal visible={this.state.visible} width="200" height="150" effect="fadeInUp">
                     <div>
@@ -235,10 +236,11 @@ class Homepage extends Component {
 				<button value='Close' onClick={this.closeModal3}>Close</button>
                 </Modal>
 				
-				<Modal visible={this.state.visible4} width="100" height="100" effect="fadeInDown">
+				<Modal visible={this.state.visible4} width="300" height="150" effect="fadeInDown">
                     <div>
-                    <input type="radio" name="rate" value="satisfied" checked />Satisfied <br />
+                    <input type="radio" name="rate" value="satisfied" checked />Satisfied <br />					
 					<input type="radio" name="rate" value="unsatisfied" />Unsatisfied <br />
+					<input type="text" name="report" value="Type in your suggestions." /> <br /><br />
                     </div>
 				<input type='submit' value="Submit" onClick={this.closeModal4} />
                 </Modal>
