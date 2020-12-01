@@ -90,7 +90,7 @@ class Homepage extends Component {
 
     // Accept ride --> Close Prompt Notifications --> Notify Ride Starts
     // This should be after rider engages with driver.
-    // Should update after accepting
+    // (NOT IMPLEMENTED) Should update after accepting
     accepted() {
         toast.dismiss()
         toast.info("Accepted Ride", {
@@ -103,7 +103,7 @@ class Homepage extends Component {
 
     // Accept ride --> Close Prompt Notifications --> Notify Ride Starts
     // This should be after rider engages with driver.
-    // Should end GET request
+    // (NOT IMPLEMENTED) Should update after accepting
     declined() {
         toast.dismiss()
         toast.info("Declined Ride", {
