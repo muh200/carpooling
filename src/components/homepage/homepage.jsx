@@ -95,20 +95,22 @@ class Homepage extends Component {
         toast.dismiss()
         toast.info("Accepted Ride", {
             position: toast.POSITION.BOTTOM_CENTER,
-            autoClose: 2000
+            autoClose: 1000,
+            hideProgressBar: true
         });
         toast('You have now started your pool ride.', {position:
              toast.POSITION.TOP_LEFT});
     }
 
-    // Accept ride --> Close Prompt Notifications --> Notify Ride Starts
+    // Decline ride --> Close Prompt Notifications --> Notify Ride Declined
     // This should be after rider engages with driver.
     // (NOT IMPLEMENTED) Should update after accepting
     declined() {
         toast.dismiss()
         toast.info("Declined Ride", {
             position: toast.POSITION.BOTTOM_CENTER,
-            autoClose: 2000
+            autoClose: 1000,
+            hideProgressBar: true
         });
         toast('You have declined the ride.', {position:
              toast.POSITION.TOP_LEFT});
@@ -116,11 +118,11 @@ class Homepage extends Component {
     
     // Three toast notifications to notify driver to accept/decline offer
     notify = () => {
-        toast("CLICK TO ACCEPT", {
-            draggablePercent: 60,
+        toast("A ride has been requested", {
             toastId: "prompt",
             position: toast.POSITION.BOTTOM_CENTER,
-            autoClose: false
+            autoClose: false,
+            closeOnClick: false
         });
         toast.success("Accept", {
             toastId: "accept",
@@ -263,7 +265,7 @@ class Homepage extends Component {
                 {/* Will use later for rendering notifications. Should be after interacting
                 with pins */}
                <div>
-                    {/* <button onClick={this.notify}>Notification</button> */}
+                    {<button onClick={this.notify}>Notification</button>}
                     <ToastContainer />
                 </div>
                 
