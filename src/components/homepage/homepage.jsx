@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { ToastContainer, toast, Slide } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import Modal from 'react-awesome-modal';
 import MapComponent from './map/map'
 import {View} from 'ol';
@@ -11,6 +13,8 @@ import Point from 'ol/geom/Point';
 import VectorLayerComponent from './map/layer';
 import VectorSource from 'ol/source/Vector';
 import './homepage.css'
+
+
 
 class Homepage extends Component {
 
@@ -38,7 +42,7 @@ class Homepage extends Component {
 			findRide: true,
 			visible: true
 		});
-	}
+    }
 	
 	closeModal=()=>{
 		this.setState({
@@ -51,7 +55,7 @@ class Homepage extends Component {
 		this.setState({
 			hostRide: true,
 			visible2: true
-		});
+        });
 	}
 	
 	closeModal2=()=>{
@@ -82,7 +86,57 @@ class Homepage extends Component {
 		this.setState({
 			visible4: false
 		});
-	}
+    }
+
+    // Accept ride --> Close Prompt Notifications --> Notify Ride Starts
+    // This should be after rider engages with driver.
+    // (NOT IMPLEMENTED) Should update after accepting
+    accepted() {
+        toast.dismiss()
+        toast.info("Accepted Ride", {
+            position: toast.POSITION.BOTTOM_CENTER,
+            autoClose: 2000
+        });
+        toast('You have now started your pool ride.', {position:
+             toast.POSITION.TOP_LEFT});
+    }
+
+    // Accept ride --> Close Prompt Notifications --> Notify Ride Starts
+    // This should be after rider engages with driver.
+    // (NOT IMPLEMENTED) Should update after accepting
+    declined() {
+        toast.dismiss()
+        toast.info("Declined Ride", {
+            position: toast.POSITION.BOTTOM_CENTER,
+            autoClose: 2000
+        });
+        toast('You have declined the ride.', {position:
+             toast.POSITION.TOP_LEFT});
+    }
+    
+    // Three toast notifications to notify driver to accept/decline offer
+    notify = () => {
+        toast("CLICK TO ACCEPT", {
+            draggablePercent: 60,
+            toastId: "prompt",
+            position: toast.POSITION.BOTTOM_CENTER,
+            autoClose: false
+        });
+        toast.success("Accept", {
+            toastId: "accept",
+            position: toast.POSITION.BOTTOM_CENTER,
+            onClick: () => this.accepted(), 
+            autoClose: false
+        });
+        toast.error("Decline", {
+            toastId: "decline",
+            position: toast.POSITION.BOTTOM_CENTER,
+            onClick: () => this.declined(),
+            autoClose: false
+        });
+
+    };
+    
 
 	
     componentDidMount() {
@@ -209,8 +263,14 @@ class Homepage extends Component {
                 <div className="dashboard">
                     {/* this will display any notif/requests, display ongoing ride, etc. */}
                 </div>
+            
+                {/* Will use later for rendering notifications. Should be after interacting
+                with pins */}
+               <div>
+                    {/* <button onClick={this.notify}>Notification</button> */}
+                    <ToastContainer />
+                </div>
                 
-
                 <button value="Dashboard" onClick={this.openModal3}>Display my ride information</button>
 				
 				<br /><br />
