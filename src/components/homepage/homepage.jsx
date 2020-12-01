@@ -167,6 +167,7 @@ class Homepage extends Component {
         const pinLayerData = new VectorSource({
             features: this.state.nearbyPins.map(pin => {
                 return new Feature({
+                    name: pin.username,
                     geometry: new Point(fromLonLat([
                         pin.location.longitude,
                         pin.location.latitude,
