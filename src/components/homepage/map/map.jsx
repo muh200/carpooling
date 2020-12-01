@@ -22,6 +22,7 @@ class MapComponent extends Component {
     }
 
     render() {
+        this.map.setProperties(this.props.options)
         return (
             <MapContext.Provider value={this.map}>
                 <div id="map" ref={this.mapRef}>

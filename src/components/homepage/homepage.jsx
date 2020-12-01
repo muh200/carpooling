@@ -183,8 +183,11 @@ class Homepage extends Component {
                 })
             ],
             view: new View({
-                center: [0, 0],
-                zoom: 0
+                center: fromLonLat([
+                    this.state.currentLocation.longitude,
+                    this.state.currentLocation.latitude,
+                ]),
+                zoom: 15,
             })
         };
         return (
