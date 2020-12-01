@@ -223,6 +223,7 @@ class Homepage extends Component {
         const pinLayerData = new VectorSource({
             features: this.state.nearbyPins.map(pin => {
                 return new Feature({
+                    name: pin.username,
                     geometry: new Point(fromLonLat([
                         pin.location.longitude,
                         pin.location.latitude,
@@ -238,8 +239,11 @@ class Homepage extends Component {
                 })
             ],
             view: new View({
-                center: [0, 0],
-                zoom: 0
+                center: fromLonLat([
+                    this.state.currentLocation.longitude,
+                    this.state.currentLocation.latitude,
+                ]),
+                zoom: 15,
             })
         };
         return (

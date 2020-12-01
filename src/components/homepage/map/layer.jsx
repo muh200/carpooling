@@ -15,6 +15,16 @@ class VectorLayerComponent extends Component {
     componentDidMount() {
         const map = this.context;
         map.addLayer(this.layer);
+        map.on('click', event => {
+            this.layer.getFeatures(event.pixel).then(features => {
+                // If you want to do something when a pin is pressed, you can
+                // write your code here.
+                for (const f of features) {
+                    // print out the username of the user at the pin
+                    console.log(f.get('name'));
+                }
+            });
+        });
     }
 
     componentWillUnmount() {
