@@ -269,8 +269,8 @@ class Homepage extends Component {
                 {/* Will use later for rendering notifications. Should be after interacting
                 with pins */}
                <div>
-                    {<button onClick={this.notify}>Notification</button>}
-                    <ToastContainer />
+                    {/* {<button onClick={this.notify}>Notification</button>}
+                    <ToastContainer /> */}
                 </div>
                 
                 <button value="Dashboard" onClick={this.openModal3}>Display my ride information</button>
