@@ -12,6 +12,7 @@ import {fromLonLat} from 'ol/proj';
 import Point from 'ol/geom/Point';
 import VectorLayerComponent from './map/layer';
 import VectorSource from 'ol/source/Vector';
+ import {Fill, Circle, Style} from 'ol/style';
 import './homepage.css'
 
 
@@ -243,15 +244,23 @@ class Homepage extends Component {
     }
 
     render() {
+        const style = new Style({
+            image: new Circle({
+                fill: new Fill({color: 'rgba(255,0,0,0.8)'}),
+                radius: 10,
+            }),
+        });
         const pinLayerData = new VectorSource({
             features: this.state.nearbyPins.map(pin => {
-                return new Feature({
+                const feature = new Feature({
                     name: pin.username,
                     geometry: new Point(fromLonLat([
                         pin.location.longitude,
                         pin.location.latitude,
                     ])),
                 });
+                feature.setStyle(style);
+                return feature;
             })
         });
 
