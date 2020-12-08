@@ -1,34 +1,31 @@
 const express = require('express');
 const router = express.Router();
-const webpush = require('web-push');
 const bodyParser = require('body-parser');
-
-const PUBLIC_VAPID_KEY = 'BNJfp6xJTI7TqAy142SFQ0_yaaSemAvZiRmDttx_To_WqgnU70fIOQl6dmMq7wmjkwtS1NcZE9sHquYlQXEpdCY';
-const PRIVATE_VAPID_KEY = 'xucunEx660ChX4Y3wb6WZ6LOKmQCNUwXLEfhT-B4png';
-const GOOGLE_API_KEY = 'AIzaSyCnOmZ-ZOHrAGWUgWZBceOKUEshwxrQOzA';
-
-webpush.setGCMAPIKey(GOOGLE_API_KEY);
-webpush.setVapidDetails(
-    'mailto:garsonchow@gmail.com',
-    PUBLIC_VAPID_KEY,
-    PRIVATE_VAPID_KEY
-);
+const passport = require('passport');
+const { checkAuthenticated } = require('../check-authentication');
 
 router.use(bodyParser.json());
 
-// Notification Route
-router.post('/', (req, res, next) => {
-    // Get pushNotification object
-    subscription = req.body
-    console.log(subscription)
-    // Send 201 - resource created
-    res.sendStatus(201)
-    
-    // Create payload
-    const payload = JSON.stringify( { title: 'Push Test'} );
+const notifications = new Map();
 
-    // Pass object into sendNotification
-    webpush.sendNotification(subscription, payload).catch(err => console.error(err));
+// Notification Route
+router.post('/', checkAuthenticated, function(req, res, next) {
+    let notificationsForUser = notifications.get(req.body.username);
+    if (notificationsForUser === undefined) {
+        notificationsForUser = [];
+        notifications.set(req.body.username, notificationsForUser);
+    }
+    notificationsForUser.push(req.body.message);
+    res.json({});
+});
+
+router.get('/', checkAuthenticated, function(req, res, next) {
+    let notificationsForUser = notifications.get(req.user.username);
+    if (notificationsForUser === undefined) {
+        notificationsForUser = [];
+    }
+    notifications.set(req.user.username, []);
+    res.json(notificationsForUser);
 });
 
 module.exports = router

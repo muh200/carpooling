@@ -40,7 +40,7 @@ app.use(passport.session());
 
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
-app.use('/subscribe', notificationRouter);
+app.use('/notifications', notificationRouter);
 app.use('/riders', ridersRouter);
 app.use('/drivers', driversRouter);
 app.use('/logout', logoutRouter);
