@@ -7,6 +7,7 @@ const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
 const ridersRouter = require('./routes/riders');
 const driversRouter = require('./routes/drivers');
+const notificationRouter = require('./routes/notification');
 
 const passport = require('passport');
 
@@ -39,6 +40,7 @@ app.use(passport.session());
 
 app.use('/users', usersRouter);
 app.use('/login', loginRouter);
+app.use('/subscribe', notificationRouter);
 app.use('/riders', ridersRouter);
 app.use('/drivers', driversRouter);
 app.use('/logout', logoutRouter);

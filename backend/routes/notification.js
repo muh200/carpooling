@@ -14,10 +14,10 @@ webpush.setVapidDetails(
     PRIVATE_VAPID_KEY
 );
 
-router.use(bodyParser.JSON());
+router.use(bodyParser.json());
 
 // Notification Route
-router.post('/subscribe', (req, res, next) => {
+router.post('/', (req, res, next) => {
     // Get pushNotification object
     subscription = req.body
     console.log(subscription)
@@ -30,17 +30,5 @@ router.post('/subscribe', (req, res, next) => {
     // Pass object into sendNotification
     webpush.sendNotification(subscription, payload).catch(err => console.error(err));
 });
-
-// Check to see if we can use service worker in current browser
-if('serviceWorker' in navigator) {
-    send().catch(err => console.error(err));
-}
-
-
-
-
-
-
-
 
 module.exports = router
