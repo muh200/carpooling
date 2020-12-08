@@ -15,16 +15,18 @@ class VectorLayerComponent extends Component {
     componentDidMount() {
         const map = this.context;
         map.addLayer(this.layer);
-        map.on('click', event => {
-            this.layer.getFeatures(event.pixel).then(features => {
-                // If you want to do something when a pin is pressed, you can
-                // write your code here.
-                for (const f of features) {
-                    // print out the username of the user at the pin
-                    console.log(f.get('name'));
-                }
+        if (!this.props.isDriver) {
+            map.on('click', event => {
+                this.layer.getFeatures(event.pixel).then(features => {
+                    // If you want to do something when a pin is pressed, you can
+                    // write your code here.
+                    if (features.length > 0) {
+                        const username = features[0].get('name');
+                        notify(username, {username});
+                    }
+                });
             });
-        });
+        }
     }
 
     componentWillUnmount() {
@@ -35,6 +37,17 @@ class VectorLayerComponent extends Component {
         this.layer.setProperties(this.props.options);
         return null;
     }
+}
+
+async function notify(username, message) {
+    await fetch('/notifications', {
+        method: 'POST',
+        body: JSON.stringify({ username, message }),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    });
 }
 
 export default VectorLayerComponent;

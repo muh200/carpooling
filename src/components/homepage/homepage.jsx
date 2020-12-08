@@ -91,13 +91,14 @@ class Homepage extends Component {
     // Accept ride --> Close Prompt Notifications --> Notify Ride Starts
     // This should be after rider engages with driver.
     // (NOT IMPLEMENTED) Should update after accepting
-    accepted() {
+    accepted(username) {
         toast.dismiss()
         toast.info("Accepted Ride", {
             position: toast.POSITION.BOTTOM_CENTER,
             autoClose: 1000,
             hideProgressBar: true
         });
+        sendNotification(username, {username: 'aa', accepted: true});
         toast('You have now started your pool ride.', {position:
              toast.POSITION.TOP_LEFT});
     }
@@ -105,19 +106,20 @@ class Homepage extends Component {
     // Decline ride --> Close Prompt Notifications --> Notify Ride Declined
     // This should be after rider engages with driver.
     // (NOT IMPLEMENTED) Should update after accepting
-    declined() {
+    declined(username) {
         toast.dismiss()
         toast.info("Declined Ride", {
             position: toast.POSITION.BOTTOM_CENTER,
             autoClose: 1000,
             hideProgressBar: true
         });
+        sendNotification(username, {username: 'aa', accepted: false});
         toast('You have declined the ride.', {position:
              toast.POSITION.TOP_LEFT});
     }
     
     // Three toast notifications to notify driver to accept/decline offer
-    notify = () => {
+    notify = (username) => {
         toast("A ride has been requested", {
             toastId: "prompt",
             position: toast.POSITION.BOTTOM_CENTER,
@@ -127,13 +129,13 @@ class Homepage extends Component {
         toast.success("Accept", {
             toastId: "accept",
             position: toast.POSITION.BOTTOM_CENTER,
-            onClick: () => this.accepted(), 
+            onClick: () => this.accepted(username),
             autoClose: false
         });
         toast.error("Decline", {
             toastId: "decline",
             position: toast.POSITION.BOTTOM_CENTER,
-            onClick: () => this.declined(),
+            onClick: () => this.declined(username),
             autoClose: false
         });
 
@@ -161,6 +163,20 @@ class Homepage extends Component {
             .then(response => response.json())
             .then(data => this.setState({ nearbyPins: data }))
             .catch(console.error)
+
+            fetch('/notifications', {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (data.length > 0) {
+                    this.notify(data[0].username);
+                }
+            });
         }, 5000, '/drivers');
 
         // Update your current location.
@@ -259,7 +275,7 @@ class Homepage extends Component {
 				
                 <div className="map">
                     <MapComponent options={mapOptions}>
-                    <VectorLayerComponent options={{ source: pinLayerData }} />
+                    <VectorLayerComponent isDriver={this.state.isDriver} options={{ source: pinLayerData }} />
                     </MapComponent>
                 </div>
                 <div className="dashboard">
@@ -268,10 +284,7 @@ class Homepage extends Component {
             
                 {/* Will use later for rendering notifications. Should be after interacting
                 with pins */}
-               <div>
-                    {/* {<button onClick={this.notify}>Notification</button>}
-                    <ToastContainer /> */}
-                </div>
+                <ToastContainer />
                 
                 <button value="Dashboard" onClick={this.openModal3}>Display my ride information</button>
 				
@@ -354,6 +367,17 @@ class Homepage extends Component {
             console.error(error);
         })
   }
+}
+
+async function sendNotification(username, message) {
+    await fetch('/notifications', {
+        method: 'POST',
+        body: JSON.stringify({ username, message }),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
+    });
 }
 
 export default Homepage;
