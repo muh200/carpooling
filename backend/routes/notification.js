@@ -15,7 +15,10 @@ router.post('/', checkAuthenticated, function(req, res, next) {
         notificationsForUser = [];
         notifications.set(req.body.username, notificationsForUser);
     }
-    notificationsForUser.push(req.body.message);
+    notificationsForUser.push({
+        username: req.user.username,
+        message: req.body.message,
+    });
     res.json({});
 });
 

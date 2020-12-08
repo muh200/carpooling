@@ -98,7 +98,7 @@ class Homepage extends Component {
             autoClose: 1000,
             hideProgressBar: true
         });
-        sendNotification(username, {username: 'aa', accepted: true});
+        sendNotification(username, {accepted: true});
         toast('You have now started your pool ride.', {position:
              toast.POSITION.TOP_LEFT});
     }
@@ -113,7 +113,7 @@ class Homepage extends Component {
             autoClose: 1000,
             hideProgressBar: true
         });
-        sendNotification(username, {username: 'aa', accepted: false});
+        sendNotification(username, {accepted: false});
         toast('You have declined the ride.', {position:
              toast.POSITION.TOP_LEFT});
     }
@@ -172,9 +172,16 @@ class Homepage extends Component {
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
                 if (data.length > 0) {
-                    this.notify(data[0].username);
+                    if (this.state.hostRide) {
+                        this.notify(data[0].username);
+                    } else if (this.state.findRide) {
+                        if (data[0].message.accepted) {
+                            toast("The driver accepted your ride!");
+                        } else {
+                            toast("The driver rejected your ride.");
+                        }
+                    }
                 }
             });
         }, 5000, '/drivers');

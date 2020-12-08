@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import VectorLayer from 'ol/layer/Vector';
 import MapContext from './mapContext';
+import { ToastContainer, toast, Slide } from 'react-toastify';
 
 class VectorLayerComponent extends Component {
 
@@ -22,7 +23,8 @@ class VectorLayerComponent extends Component {
                     // write your code here.
                     if (features.length > 0) {
                         const username = features[0].get('name');
-                        notify(username, {username});
+                        toast("You have just requested a ride!");
+                        notify(username, {});
                     }
                 });
             });
